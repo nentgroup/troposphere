@@ -269,6 +269,18 @@ class WebAppCustomization(AWSProperty):
     }
 
 
+class WebAppIdentityProviderDetails(AWSProperty):
+    """
+    `WebAppIdentityProviderDetails <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-transfer-webapp-identityproviderdetails.html>`__
+    """
+
+    props: PropsDictType = {
+        "ApplicationArn": (str, False),
+        "InstanceArn": (str, False),
+        "Role": (str, False),
+    }
+
+
 class WebAppUnits(AWSProperty):
     """
     `WebAppUnits <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-transfer-webapp-webappunits.html>`__
@@ -288,7 +300,7 @@ class WebApp(AWSObject):
 
     props: PropsDictType = {
         "AccessEndpoint": (str, False),
-        "IdentityProviderDetails": (IdentityProviderDetails, True),
+        "IdentityProviderDetails": (WebAppIdentityProviderDetails, True),
         "Tags": (Tags, False),
         "WebAppCustomization": (WebAppCustomization, False),
         "WebAppUnits": (WebAppUnits, False),
