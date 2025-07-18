@@ -780,24 +780,65 @@ class ProjectMembership(AWSObject):
     }
 
 
-class DesignationConfiguration(AWSProperty):
+class AwsAccount(AWSProperty):
     """
-    `DesignationConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datazone-projectprofile-designationconfiguration.html>`__
+    `AwsAccount <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datazone-projectprofile-awsaccount.html>`__
     """
 
     props: PropsDictType = {
-        "DesignationId": (str, True),
+        "AwsAccountId": (str, True),
     }
 
 
-class ProjectScope(AWSProperty):
+class EnvironmentConfigurationParameter(AWSProperty):
     """
-    `ProjectScope <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datazone-projectprofile-projectscope.html>`__
+    `EnvironmentConfigurationParameter <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datazone-projectprofile-environmentconfigurationparameter.html>`__
     """
 
     props: PropsDictType = {
+        "IsEditable": (boolean, False),
+        "Name": (str, False),
+        "Value": (str, False),
+    }
+
+
+class EnvironmentConfigurationParametersDetails(AWSProperty):
+    """
+    `EnvironmentConfigurationParametersDetails <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datazone-projectprofile-environmentconfigurationparametersdetails.html>`__
+    """
+
+    props: PropsDictType = {
+        "ParameterOverrides": ([EnvironmentConfigurationParameter], False),
+        "ResolvedParameters": ([EnvironmentConfigurationParameter], False),
+        "SsmPath": (str, False),
+    }
+
+
+class Region(AWSProperty):
+    """
+    `Region <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datazone-projectprofile-region.html>`__
+    """
+
+    props: PropsDictType = {
+        "RegionName": (str, True),
+    }
+
+
+class EnvironmentConfiguration(AWSProperty):
+    """
+    `EnvironmentConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datazone-projectprofile-environmentconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "AwsAccount": (AwsAccount, False),
+        "AwsRegion": (Region, True),
+        "ConfigurationParameters": (EnvironmentConfigurationParametersDetails, False),
+        "DeploymentMode": (str, False),
+        "DeploymentOrder": (double, False),
+        "Description": (str, False),
+        "EnvironmentBlueprintId": (str, True),
+        "Id": (str, False),
         "Name": (str, True),
-        "Policy": (str, False),
     }
 
 
@@ -809,13 +850,11 @@ class ProjectProfile(AWSObject):
     resource_type = "AWS::DataZone::ProjectProfile"
 
     props: PropsDictType = {
-        "AllowedDesignations": ([DesignationConfiguration], False),
-        "ChangeLog": (str, False),
         "Description": (str, False),
         "DomainIdentifier": (str, False),
         "DomainUnitIdentifier": (str, False),
+        "EnvironmentConfigurations": ([EnvironmentConfiguration], False),
         "Name": (str, True),
-        "ProjectScopes": ([ProjectScope], False),
         "Status": (str, False),
     }
 
