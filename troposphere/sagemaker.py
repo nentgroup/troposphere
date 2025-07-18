@@ -722,6 +722,23 @@ class RStudioServerProDomainSettings(AWSProperty):
     }
 
 
+class UnifiedStudioSettings(AWSProperty):
+    """
+    `UnifiedStudioSettings <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-domain-unifiedstudiosettings.html>`__
+    """
+
+    props: PropsDictType = {
+        "DomainAccountId": (str, False),
+        "DomainId": (str, False),
+        "DomainRegion": (str, False),
+        "EnvironmentId": (str, False),
+        "ProjectId": (str, False),
+        "ProjectS3Path": (str, False),
+        "SingleSignOnApplicationArn": (str, False),
+        "StudioWebPortalAccess": (str, False),
+    }
+
+
 class DomainSettings(AWSProperty):
     """
     `DomainSettings <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-domain-domainsettings.html>`__
@@ -732,6 +749,7 @@ class DomainSettings(AWSProperty):
         "ExecutionRoleIdentityConfig": (str, False),
         "RStudioServerProDomainSettings": (RStudioServerProDomainSettings, False),
         "SecurityGroupIds": ([str], False),
+        "UnifiedStudioSettings": (UnifiedStudioSettings, False),
     }
 
 
@@ -836,10 +854,10 @@ class Domain(AWSObject):
         "DomainName": (str, True),
         "DomainSettings": (DomainSettings, False),
         "KmsKeyId": (str, False),
-        "SubnetIds": ([str], True),
+        "SubnetIds": ([str], False),
         "TagPropagation": (str, False),
         "Tags": (Tags, False),
-        "VpcId": (str, True),
+        "VpcId": (str, False),
     }
 
 
@@ -2967,6 +2985,40 @@ class ServiceCatalogProvisioningDetails(AWSProperty):
     }
 
 
+class CfnStackParameter(AWSProperty):
+    """
+    `CfnStackParameter <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-project-cfnstackparameter.html>`__
+    """
+
+    props: PropsDictType = {
+        "Key": (str, True),
+        "Value": (str, True),
+    }
+
+
+class CfnTemplateProviderDetail(AWSProperty):
+    """
+    `CfnTemplateProviderDetail <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-project-cfntemplateproviderdetail.html>`__
+    """
+
+    props: PropsDictType = {
+        "Parameters": ([CfnStackParameter], False),
+        "RoleARN": (str, False),
+        "TemplateName": (str, True),
+        "TemplateURL": (str, True),
+    }
+
+
+class TemplateProviderDetail(AWSProperty):
+    """
+    `TemplateProviderDetail <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-project-templateproviderdetail.html>`__
+    """
+
+    props: PropsDictType = {
+        "CfnTemplateProviderDetail": (CfnTemplateProviderDetail, True),
+    }
+
+
 class Project(AWSObject):
     """
     `Project <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-project.html>`__
@@ -2981,8 +3033,9 @@ class Project(AWSObject):
             ServiceCatalogProvisionedProductDetails,
             False,
         ),
-        "ServiceCatalogProvisioningDetails": (ServiceCatalogProvisioningDetails, True),
+        "ServiceCatalogProvisioningDetails": (ServiceCatalogProvisioningDetails, False),
         "Tags": (Tags, False),
+        "TemplateProviderDetails": ([TemplateProviderDetail], False),
     }
 
 
