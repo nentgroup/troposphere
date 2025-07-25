@@ -6917,7 +6917,13 @@ class Capabilities(AWSProperty):
         "CreateSPICEDataset": (str, False),
         "CreateSharedFolders": (str, False),
         "ExportToCsv": (str, False),
+        "ExportToCsvInScheduledReports": (str, False),
         "ExportToExcel": (str, False),
+        "ExportToExcelInScheduledReports": (str, False),
+        "ExportToPdf": (str, False),
+        "ExportToPdfInScheduledReports": (str, False),
+        "IncludeContentInScheduledReportsEmail": (str, False),
+        "PrintReports": (str, False),
         "RenameSharedFolders": (str, False),
         "ShareAnalyses": (str, False),
         "ShareDashboards": (str, False),
@@ -7776,12 +7782,23 @@ class AmazonOpenSearchParameters(AWSProperty):
     }
 
 
+class IdentityCenterConfiguration(AWSProperty):
+    """
+    `IdentityCenterConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-quicksight-datasource-identitycenterconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "EnableIdentityPropagation": (boolean, False),
+    }
+
+
 class AthenaParameters(AWSProperty):
     """
     `AthenaParameters <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-quicksight-datasource-athenaparameters.html>`__
     """
 
     props: PropsDictType = {
+        "IdentityCenterConfiguration": (IdentityCenterConfiguration, False),
         "RoleArn": (str, False),
         "WorkGroup": (str, False),
     }
@@ -7856,6 +7873,7 @@ class OracleParameters(AWSProperty):
         "Database": (str, True),
         "Host": (str, True),
         "Port": (double, True),
+        "UseServiceName": (boolean, False),
     }
 
 
@@ -7891,16 +7909,6 @@ class RdsParameters(AWSProperty):
     props: PropsDictType = {
         "Database": (str, True),
         "InstanceId": (str, True),
-    }
-
-
-class IdentityCenterConfiguration(AWSProperty):
-    """
-    `IdentityCenterConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-quicksight-datasource-identitycenterconfiguration.html>`__
-    """
-
-    props: PropsDictType = {
-        "EnableIdentityPropagation": (boolean, False),
     }
 
 
@@ -8870,6 +8878,7 @@ class Topic(AWSObject):
         "Description": (str, False),
         "FolderArns": ([str], False),
         "Name": (str, False),
+        "Tags": (Tags, False),
         "TopicId": (str, False),
         "UserExperienceVersion": (str, False),
     }
