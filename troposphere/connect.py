@@ -195,7 +195,12 @@ class Attributes(AWSProperty):
         "ContactLens": (boolean, False),
         "ContactflowLogs": (boolean, False),
         "EarlyMedia": (boolean, False),
+        "EnhancedChatMonitoring": (boolean, False),
+        "EnhancedContactMonitoring": (boolean, False),
+        "HighVolumeOutBound": (boolean, False),
         "InboundCalls": (boolean, True),
+        "MultiPartyChatConference": (boolean, False),
+        "MultiPartyConference": (boolean, False),
         "OutboundCalls": (boolean, True),
         "UseCustomTTSVoices": (boolean, False),
     }
@@ -1015,6 +1020,16 @@ class ViewVersion(AWSObject):
         "VersionDescription": (str, False),
         "ViewArn": (str, True),
         "ViewContentSha256": (str, False),
+    }
+
+
+class AutoEvaluationConfiguration(AWSProperty):
+    """
+    `AutoEvaluationConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-evaluationform-autoevaluationconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "Enabled": (boolean, False),
     }
 
 

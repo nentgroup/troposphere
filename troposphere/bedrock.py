@@ -1033,9 +1033,9 @@ class ContextEnrichmentConfiguration(AWSProperty):
     }
 
 
-class S3Location(AWSProperty):
+class DataSourceS3Location(AWSProperty):
     """
-    `S3Location <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-knowledgebase-s3location.html>`__
+    `DataSourceS3Location <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-datasource-s3location.html>`__
     """
 
     props: PropsDictType = {
@@ -1049,7 +1049,7 @@ class IntermediateStorage(AWSProperty):
     """
 
     props: PropsDictType = {
-        "S3Location": (S3Location, True),
+        "S3Location": (DataSourceS3Location, True),
     }
 
 
@@ -1264,6 +1264,134 @@ class InlineCodeFlowNodeConfiguration(AWSProperty):
     }
 
 
+class KnowledgeBasePromptTemplate(AWSProperty):
+    """
+    `KnowledgeBasePromptTemplate <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-knowledgebaseprompttemplate.html>`__
+    """
+
+    props: PropsDictType = {
+        "TextPromptTemplate": (str, True),
+    }
+
+
+class PerformanceConfiguration(AWSProperty):
+    """
+    `PerformanceConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-performanceconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "Latency": (str, False),
+    }
+
+
+class PromptModelInferenceConfiguration(AWSProperty):
+    """
+    `PromptModelInferenceConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-promptversion-promptmodelinferenceconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "MaxTokens": (double, False),
+        "StopSequences": ([str], False),
+        "Temperature": (double, False),
+        "TopP": (double, False),
+    }
+
+
+class PromptInferenceConfiguration(AWSProperty):
+    """
+    `PromptInferenceConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-promptversion-promptinferenceconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "Text": (PromptModelInferenceConfiguration, True),
+    }
+
+
+class KnowledgeBaseOrchestrationConfiguration(AWSProperty):
+    """
+    `KnowledgeBaseOrchestrationConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-knowledgebaseorchestrationconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "AdditionalModelRequestFields": (dict, False),
+        "InferenceConfig": (PromptInferenceConfiguration, False),
+        "PerformanceConfig": (PerformanceConfiguration, False),
+        "PromptTemplate": (KnowledgeBasePromptTemplate, False),
+    }
+
+
+class FieldForReranking(AWSProperty):
+    """
+    `FieldForReranking <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-fieldforreranking.html>`__
+    """
+
+    props: PropsDictType = {
+        "FieldName": (str, True),
+    }
+
+
+class RerankingMetadataSelectiveModeConfiguration(AWSProperty):
+    """
+    `RerankingMetadataSelectiveModeConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-rerankingmetadataselectivemodeconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "FieldsToExclude": ([FieldForReranking], False),
+        "FieldsToInclude": ([FieldForReranking], False),
+    }
+
+
+class MetadataConfigurationForReranking(AWSProperty):
+    """
+    `MetadataConfigurationForReranking <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-metadataconfigurationforreranking.html>`__
+    """
+
+    props: PropsDictType = {
+        "SelectionMode": (str, True),
+        "SelectiveModeConfiguration": (
+            RerankingMetadataSelectiveModeConfiguration,
+            False,
+        ),
+    }
+
+
+class VectorSearchBedrockRerankingModelConfiguration(AWSProperty):
+    """
+    `VectorSearchBedrockRerankingModelConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-vectorsearchbedrockrerankingmodelconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "AdditionalModelRequestFields": (dict, False),
+        "ModelArn": (str, True),
+    }
+
+
+class VectorSearchBedrockRerankingConfiguration(AWSProperty):
+    """
+    `VectorSearchBedrockRerankingConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-vectorsearchbedrockrerankingconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "MetadataConfiguration": (MetadataConfigurationForReranking, False),
+        "ModelConfiguration": (VectorSearchBedrockRerankingModelConfiguration, True),
+        "NumberOfRerankedResults": (double, False),
+    }
+
+
+class VectorSearchRerankingConfiguration(AWSProperty):
+    """
+    `VectorSearchRerankingConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-vectorsearchrerankingconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "BedrockRerankingConfiguration": (
+            VectorSearchBedrockRerankingConfiguration,
+            False,
+        ),
+        "Type": (str, True),
+    }
+
+
 class KnowledgeBaseFlowNodeConfiguration(AWSProperty):
     """
     `KnowledgeBaseFlowNodeConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-knowledgebaseflownodeconfiguration.html>`__
@@ -1271,8 +1399,13 @@ class KnowledgeBaseFlowNodeConfiguration(AWSProperty):
 
     props: PropsDictType = {
         "GuardrailConfiguration": (GuardrailConfiguration, False),
+        "InferenceConfiguration": (PromptInferenceConfiguration, False),
         "KnowledgeBaseId": (str, True),
         "ModelId": (str, False),
+        "NumberOfResults": (double, False),
+        "OrchestrationConfiguration": (KnowledgeBaseOrchestrationConfiguration, False),
+        "PromptTemplate": (KnowledgeBasePromptTemplate, False),
+        "RerankingConfiguration": (VectorSearchRerankingConfiguration, False),
     }
 
 
@@ -1297,26 +1430,24 @@ class LexFlowNodeConfiguration(AWSProperty):
     }
 
 
-class PromptModelInferenceConfiguration(AWSProperty):
+class LoopControllerFlowNodeConfiguration(AWSProperty):
     """
-    `PromptModelInferenceConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-promptversion-promptmodelinferenceconfiguration.html>`__
+    `LoopControllerFlowNodeConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-loopcontrollerflownodeconfiguration.html>`__
     """
 
     props: PropsDictType = {
-        "MaxTokens": (double, False),
-        "StopSequences": ([str], False),
-        "Temperature": (double, False),
-        "TopP": (double, False),
+        "ContinueCondition": (FlowCondition, True),
+        "MaxIterations": (double, False),
     }
 
 
-class PromptInferenceConfiguration(AWSProperty):
+class LoopFlowNodeConfiguration(AWSProperty):
     """
-    `PromptInferenceConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-promptversion-promptinferenceconfiguration.html>`__
+    `LoopFlowNodeConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flow-loopflownodeconfiguration.html>`__
     """
 
     props: PropsDictType = {
-        "Text": (PromptModelInferenceConfiguration, True),
+        "Definition": (object, True),
     }
 
 
@@ -1452,15 +1583,28 @@ class ChatPromptTemplateConfiguration(AWSProperty):
     }
 
 
+class TextS3Location(AWSProperty):
+    """
+    `TextS3Location <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-prompt-texts3location.html>`__
+    """
+
+    props: PropsDictType = {
+        "Bucket": (str, True),
+        "Key": (str, True),
+        "Version": (str, False),
+    }
+
+
 class TextPromptTemplateConfiguration(AWSProperty):
     """
-    `TextPromptTemplateConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-promptversion-textprompttemplateconfiguration.html>`__
+    `TextPromptTemplateConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-prompt-textprompttemplateconfiguration.html>`__
     """
 
     props: PropsDictType = {
         "CachePoint": (CachePointBlock, False),
         "InputVariables": ([PromptInputVariable], False),
-        "Text": (str, True),
+        "Text": (str, False),
+        "TextS3Location": (TextS3Location, False),
     }
 
 
@@ -1595,6 +1739,9 @@ class FlowNodeConfiguration(AWSProperty):
         "KnowledgeBase": (KnowledgeBaseFlowNodeConfiguration, False),
         "LambdaFunction": (LambdaFunctionFlowNodeConfiguration, False),
         "Lex": (LexFlowNodeConfiguration, False),
+        "Loop": (LoopFlowNodeConfiguration, False),
+        "LoopController": (LoopControllerFlowNodeConfiguration, False),
+        "LoopInput": (dict, False),
         "Output": (dict, False),
         "Prompt": (PromptFlowNodeConfiguration, False),
         "Retrieval": (RetrievalFlowNodeConfiguration, False),
@@ -1604,10 +1751,11 @@ class FlowNodeConfiguration(AWSProperty):
 
 class FlowNodeInput(AWSProperty):
     """
-    `FlowNodeInput <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flowversion-flownodeinput.html>`__
+    `FlowNodeInput <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flow-flownodeinput.html>`__
     """
 
     props: PropsDictType = {
+        "Category": (str, False),
         "Expression": (str, True),
         "Name": (str, True),
         "Type": (str, True),
@@ -1647,6 +1795,18 @@ class FlowDefinition(AWSProperty):
     props: PropsDictType = {
         "Connections": ([FlowConnection], False),
         "Nodes": ([FlowNode], False),
+    }
+
+
+class S3Location(AWSProperty):
+    """
+    `S3Location <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-flow-s3location.html>`__
+    """
+
+    props: PropsDictType = {
+        "Bucket": (str, True),
+        "Key": (str, True),
+        "Version": (str, False),
     }
 
 
@@ -1740,12 +1900,23 @@ class ContentFilterConfig(AWSProperty):
     }
 
 
+class ContentFiltersTierConfig(AWSProperty):
+    """
+    `ContentFiltersTierConfig <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-guardrail-contentfilterstierconfig.html>`__
+    """
+
+    props: PropsDictType = {
+        "TierName": (str, True),
+    }
+
+
 class ContentPolicyConfig(AWSProperty):
     """
     `ContentPolicyConfig <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-guardrail-contentpolicyconfig.html>`__
     """
 
     props: PropsDictType = {
+        "ContentFiltersTierConfig": (ContentFiltersTierConfig, False),
         "FiltersConfig": ([ContentFilterConfig], True),
     }
 
@@ -1770,6 +1941,16 @@ class ContextualGroundingPolicyConfig(AWSProperty):
 
     props: PropsDictType = {
         "FiltersConfig": ([ContextualGroundingFilterConfig], True),
+    }
+
+
+class GuardrailCrossRegionConfig(AWSProperty):
+    """
+    `GuardrailCrossRegionConfig <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-guardrail-guardrailcrossregionconfig.html>`__
+    """
+
+    props: PropsDictType = {
+        "GuardrailProfileArn": (str, True),
     }
 
 
@@ -1833,6 +2014,16 @@ class TopicConfig(AWSProperty):
     }
 
 
+class TopicsTierConfig(AWSProperty):
+    """
+    `TopicsTierConfig <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-guardrail-topicstierconfig.html>`__
+    """
+
+    props: PropsDictType = {
+        "TierName": (str, True),
+    }
+
+
 class TopicPolicyConfig(AWSProperty):
     """
     `TopicPolicyConfig <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-guardrail-topicpolicyconfig.html>`__
@@ -1840,6 +2031,7 @@ class TopicPolicyConfig(AWSProperty):
 
     props: PropsDictType = {
         "TopicsConfig": ([TopicConfig], True),
+        "TopicsTierConfig": (TopicsTierConfig, False),
     }
 
 
@@ -1894,6 +2086,7 @@ class Guardrail(AWSObject):
         "BlockedOutputsMessaging": (str, True),
         "ContentPolicyConfig": (ContentPolicyConfig, False),
         "ContextualGroundingPolicyConfig": (ContextualGroundingPolicyConfig, False),
+        "CrossRegionConfig": (GuardrailCrossRegionConfig, False),
         "Description": (str, False),
         "KmsKeyArn": (str, False),
         "Name": (str, True),
@@ -2164,13 +2357,23 @@ class EmbeddingModelConfiguration(AWSProperty):
     }
 
 
+class KnowledgeBaseS3Location(AWSProperty):
+    """
+    `KnowledgeBaseS3Location <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-knowledgebase-s3location.html>`__
+    """
+
+    props: PropsDictType = {
+        "URI": (str, True),
+    }
+
+
 class SupplementalDataStorageLocation(AWSProperty):
     """
     `SupplementalDataStorageLocation <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-knowledgebase-supplementaldatastoragelocation.html>`__
     """
 
     props: PropsDictType = {
-        "S3Location": (S3Location, False),
+        "S3Location": (KnowledgeBaseS3Location, False),
         "SupplementalDataStorageLocationType": (str, True),
     }
 
@@ -2401,6 +2604,37 @@ class KnowledgeBase(AWSObject):
     }
 
 
+class PromptAgentResource(AWSProperty):
+    """
+    `PromptAgentResource <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-promptversion-promptagentresource.html>`__
+    """
+
+    props: PropsDictType = {
+        "AgentIdentifier": (str, True),
+    }
+
+
+class PromptGenAiResource(AWSProperty):
+    """
+    `PromptGenAiResource <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-promptversion-promptgenairesource.html>`__
+    """
+
+    props: PropsDictType = {
+        "Agent": (PromptAgentResource, True),
+    }
+
+
+class PromptMetadataEntry(AWSProperty):
+    """
+    `PromptMetadataEntry <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-promptversion-promptmetadataentry.html>`__
+    """
+
+    props: PropsDictType = {
+        "Key": (str, True),
+        "Value": (str, True),
+    }
+
+
 class PromptVariant(AWSProperty):
     """
     `PromptVariant <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-promptversion-promptvariant.html>`__
@@ -2478,16 +2712,4 @@ class InferenceProfileModel(AWSProperty):
 
     props: PropsDictType = {
         "ModelArn": (str, False),
-    }
-
-
-class TextS3Location(AWSProperty):
-    """
-    `TextS3Location <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-prompt-texts3location.html>`__
-    """
-
-    props: PropsDictType = {
-        "Bucket": (str, True),
-        "Key": (str, True),
-        "Version": (str, False),
     }

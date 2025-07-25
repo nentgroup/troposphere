@@ -555,6 +555,17 @@ class FSxLustreFileSystemConfig(AWSProperty):
     }
 
 
+class S3FileSystemConfig(AWSProperty):
+    """
+    `S3FileSystemConfig <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-userprofile-s3filesystemconfig.html>`__
+    """
+
+    props: PropsDictType = {
+        "MountPath": (str, False),
+        "S3Uri": (str, False),
+    }
+
+
 class CustomFileSystemConfig(AWSProperty):
     """
     `CustomFileSystemConfig <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-userprofile-customfilesystemconfig.html>`__
@@ -563,6 +574,7 @@ class CustomFileSystemConfig(AWSProperty):
     props: PropsDictType = {
         "EFSFileSystemConfig": (EFSFileSystemConfig, False),
         "FSxLustreFileSystemConfig": (FSxLustreFileSystemConfig, False),
+        "S3FileSystemConfig": (S3FileSystemConfig, False),
     }
 
 
@@ -722,6 +734,23 @@ class RStudioServerProDomainSettings(AWSProperty):
     }
 
 
+class UnifiedStudioSettings(AWSProperty):
+    """
+    `UnifiedStudioSettings <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-domain-unifiedstudiosettings.html>`__
+    """
+
+    props: PropsDictType = {
+        "DomainAccountId": (str, False),
+        "DomainId": (str, False),
+        "DomainRegion": (str, False),
+        "EnvironmentId": (str, False),
+        "ProjectId": (str, False),
+        "ProjectS3Path": (str, False),
+        "SingleSignOnApplicationArn": (str, False),
+        "StudioWebPortalAccess": (str, False),
+    }
+
+
 class DomainSettings(AWSProperty):
     """
     `DomainSettings <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-domain-domainsettings.html>`__
@@ -732,6 +761,7 @@ class DomainSettings(AWSProperty):
         "ExecutionRoleIdentityConfig": (str, False),
         "RStudioServerProDomainSettings": (RStudioServerProDomainSettings, False),
         "SecurityGroupIds": ([str], False),
+        "UnifiedStudioSettings": (UnifiedStudioSettings, False),
     }
 
 
@@ -836,10 +866,10 @@ class Domain(AWSObject):
         "DomainName": (str, True),
         "DomainSettings": (DomainSettings, False),
         "KmsKeyId": (str, False),
-        "SubnetIds": ([str], True),
+        "SubnetIds": ([str], False),
         "TagPropagation": (str, False),
         "Tags": (Tags, False),
-        "VpcId": (str, True),
+        "VpcId": (str, False),
     }
 
 
@@ -2967,6 +2997,40 @@ class ServiceCatalogProvisioningDetails(AWSProperty):
     }
 
 
+class CfnStackParameter(AWSProperty):
+    """
+    `CfnStackParameter <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-project-cfnstackparameter.html>`__
+    """
+
+    props: PropsDictType = {
+        "Key": (str, True),
+        "Value": (str, True),
+    }
+
+
+class CfnTemplateProviderDetail(AWSProperty):
+    """
+    `CfnTemplateProviderDetail <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-project-cfntemplateproviderdetail.html>`__
+    """
+
+    props: PropsDictType = {
+        "Parameters": ([CfnStackParameter], False),
+        "RoleARN": (str, False),
+        "TemplateName": (str, True),
+        "TemplateURL": (str, True),
+    }
+
+
+class TemplateProviderDetail(AWSProperty):
+    """
+    `TemplateProviderDetail <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-project-templateproviderdetail.html>`__
+    """
+
+    props: PropsDictType = {
+        "CfnTemplateProviderDetail": (CfnTemplateProviderDetail, True),
+    }
+
+
 class Project(AWSObject):
     """
     `Project <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-project.html>`__
@@ -2981,8 +3045,9 @@ class Project(AWSObject):
             ServiceCatalogProvisionedProductDetails,
             False,
         ),
-        "ServiceCatalogProvisioningDetails": (ServiceCatalogProvisioningDetails, True),
+        "ServiceCatalogProvisioningDetails": (ServiceCatalogProvisioningDetails, False),
         "Tags": (Tags, False),
+        "TemplateProviderDetails": ([TemplateProviderDetail], False),
     }
 
 
@@ -3016,6 +3081,16 @@ class FSxLustreFileSystem(AWSProperty):
     }
 
 
+class S3FileSystem(AWSProperty):
+    """
+    `S3FileSystem <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-space-s3filesystem.html>`__
+    """
+
+    props: PropsDictType = {
+        "S3Uri": (str, False),
+    }
+
+
 class CustomFileSystem(AWSProperty):
     """
     `CustomFileSystem <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-space-customfilesystem.html>`__
@@ -3024,6 +3099,7 @@ class CustomFileSystem(AWSProperty):
     props: PropsDictType = {
         "EFSFileSystem": (EFSFileSystem, False),
         "FSxLustreFileSystem": (FSxLustreFileSystem, False),
+        "S3FileSystem": (S3FileSystem, False),
     }
 
 
@@ -3102,6 +3178,8 @@ class SpaceSettings(AWSProperty):
         "JupyterLabAppSettings": (SpaceJupyterLabAppSettings, False),
         "JupyterServerAppSettings": (JupyterServerAppSettings, False),
         "KernelGatewayAppSettings": (KernelGatewayAppSettings, False),
+        "RemoteAccess": (str, False),
+        "SpaceManagedResources": (str, False),
         "SpaceStorageSettings": (SpaceStorageSettings, False),
     }
 
