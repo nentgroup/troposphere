@@ -424,7 +424,7 @@ class StorageVirtualMachine(AWSObject):
     `StorageVirtualMachine <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-storagevirtualmachine.html>`__
     """
 
-    resource_type = "AWS::FSx::StorageVirtualMachine"
+    resource_type = "Dev::FSx::StorageVirtualMachine"
 
     props: PropsDictType = {
         "ActiveDirectoryConfiguration": (ActiveDirectoryConfiguration, False),
