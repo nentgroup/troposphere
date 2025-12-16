@@ -156,6 +156,42 @@ class DataTableAttribute(AWSObject):
     }
 
 
+class Value(AWSProperty):
+    """
+    `Value <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-datatablerecord-value.html>`__
+    """
+
+    props: PropsDictType = {
+        "AttributeId": (str, False),
+        "AttributeValue": (str, False),
+    }
+
+
+class DataTableRecordProperty(AWSProperty):
+    """
+    `DataTableRecordProperty <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-datatablerecord-datatablerecord.html>`__
+    """
+
+    props: PropsDictType = {
+        "PrimaryValues": ([Value], False),
+        "Values": ([Value], True),
+    }
+
+
+class DataTableRecord(AWSObject):
+    """
+    `DataTableRecord <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-connect-datatablerecord.html>`__
+    """
+
+    resource_type = "AWS::Connect::DataTableRecord"
+
+    props: PropsDictType = {
+        "DataTableArn": (str, False),
+        "DataTableRecord": (DataTableRecordProperty, False),
+        "InstanceArn": (str, False),
+    }
+
+
 class AliasConfiguration(AWSProperty):
     """
     `AliasConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-emailaddress-aliasconfiguration.html>`__
@@ -1576,6 +1612,159 @@ class ViewVersion(AWSObject):
         "VersionDescription": (str, False),
         "ViewArn": (str, True),
         "ViewContentSha256": (str, False),
+    }
+
+
+class MediaItem(AWSProperty):
+    """
+    `MediaItem <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-mediaitem.html>`__
+    """
+
+    props: PropsDictType = {
+        "Source": (str, False),
+        "Type": (str, True),
+    }
+
+
+class WorkspacePage(AWSProperty):
+    """
+    `WorkspacePage <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-workspacepage.html>`__
+    """
+
+    props: PropsDictType = {
+        "InputData": (str, False),
+        "Page": (str, True),
+        "ResourceArn": (str, True),
+        "Slug": (str, False),
+    }
+
+
+class PaletteCanvas(AWSProperty):
+    """
+    `PaletteCanvas <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-palettecanvas.html>`__
+    """
+
+    props: PropsDictType = {
+        "ActiveBackground": (str, False),
+        "ContainerBackground": (str, False),
+        "PageBackground": (str, False),
+    }
+
+
+class PaletteHeader(AWSProperty):
+    """
+    `PaletteHeader <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-paletteheader.html>`__
+    """
+
+    props: PropsDictType = {
+        "Background": (str, False),
+        "InvertActionsColors": (boolean, False),
+        "Text": (str, False),
+        "TextHover": (str, False),
+    }
+
+
+class PaletteNavigation(AWSProperty):
+    """
+    `PaletteNavigation <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-palettenavigation.html>`__
+    """
+
+    props: PropsDictType = {
+        "Background": (str, False),
+        "InvertActionsColors": (boolean, False),
+        "Text": (str, False),
+        "TextActive": (str, False),
+        "TextBackgroundActive": (str, False),
+        "TextBackgroundHover": (str, False),
+        "TextHover": (str, False),
+    }
+
+
+class PalettePrimary(AWSProperty):
+    """
+    `PalettePrimary <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-paletteprimary.html>`__
+    """
+
+    props: PropsDictType = {
+        "Active": (str, False),
+        "ContrastText": (str, False),
+        "Default": (str, False),
+    }
+
+
+class WorkspaceThemePalette(AWSProperty):
+    """
+    `WorkspaceThemePalette <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-workspacethemepalette.html>`__
+    """
+
+    props: PropsDictType = {
+        "Canvas": (PaletteCanvas, False),
+        "Header": (PaletteHeader, False),
+        "Navigation": (PaletteNavigation, False),
+        "Primary": (PalettePrimary, False),
+    }
+
+
+class FontFamily(AWSProperty):
+    """
+    `FontFamily <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-fontfamily.html>`__
+    """
+
+    props: PropsDictType = {
+        "Default": (str, False),
+    }
+
+
+class WorkspaceThemeTypography(AWSProperty):
+    """
+    `WorkspaceThemeTypography <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-workspacethemetypography.html>`__
+    """
+
+    props: PropsDictType = {
+        "FontFamily": (FontFamily, False),
+    }
+
+
+class WorkspaceThemeConfig(AWSProperty):
+    """
+    `WorkspaceThemeConfig <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-workspacethemeconfig.html>`__
+    """
+
+    props: PropsDictType = {
+        "Palette": (WorkspaceThemePalette, False),
+        "Typography": (WorkspaceThemeTypography, False),
+    }
+
+
+class WorkspaceTheme(AWSProperty):
+    """
+    `WorkspaceTheme <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-connect-workspace-workspacetheme.html>`__
+    """
+
+    props: PropsDictType = {
+        "Dark": (WorkspaceThemeConfig, False),
+        "Light": (WorkspaceThemeConfig, False),
+    }
+
+
+class Workspace(AWSObject):
+    """
+    `Workspace <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-connect-workspace.html>`__
+    """
+
+    resource_type = "AWS::Connect::Workspace"
+
+    props: PropsDictType = {
+        "Associations": ([str], False),
+        "Description": (str, False),
+        "InstanceArn": (str, True),
+        "Media": ([MediaItem], False),
+        "Name": (str, True),
+        "Pages": ([WorkspacePage], False),
+        "Tags": (Tags, False),
+        "Theme": (WorkspaceTheme, False),
+        "Title": (str, False),
+        "Visibility": (str, False),
     }
 
 

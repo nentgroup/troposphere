@@ -524,6 +524,7 @@ class InstanceRequirementsRequest(AWSProperty):
         "NetworkBandwidthGbps": (NetworkBandwidthGbpsRequest, False),
         "NetworkInterfaceCount": (NetworkInterfaceCountRequest, False),
         "OnDemandMaxPricePercentageOverLowestPrice": (integer, False),
+        "RequireEncryptionInTransit": (boolean, False),
         "RequireHibernateSupport": (boolean, False),
         "SpotMaxPricePercentageOverLowestPrice": (integer, False),
         "TotalLocalStorageGB": (TotalLocalStorageGBRequest, False),
@@ -2069,6 +2070,7 @@ class NetworkInterface(AWSObject):
         "Ipv6Prefixes": ([Ipv6PrefixSpecification], False),
         "PrivateIpAddress": (str, False),
         "PrivateIpAddresses": ([PrivateIpAddressSpecification], False),
+        "PublicIpDnsHostnameTypeSpecification": (str, False),
         "SecondaryPrivateIpAddressCount": (integer, False),
         "SourceDestCheck": (boolean, False),
         "SubnetId": (str, True),
@@ -2624,6 +2626,7 @@ class SpotFleet(AWSObject):
 
     props: PropsDictType = {
         "SpotFleetRequestConfigData": (SpotFleetRequestConfigData, True),
+        "Tags": (Tags, False),
     }
 
 
@@ -3956,6 +3959,19 @@ class PeeringAttachmentStatus(AWSProperty):
     props: PropsDictType = {
         "Code": (str, False),
         "Message": (str, False),
+    }
+
+
+class PublicIpDnsNameOptions(AWSProperty):
+    """
+    `PublicIpDnsNameOptions <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-networkinterface-publicipdnsnameoptions.html>`__
+    """
+
+    props: PropsDictType = {
+        "DnsHostnameType": (str, False),
+        "PublicDualStackDnsName": (str, False),
+        "PublicIpv4DnsName": (str, False),
+        "PublicIpv6DnsName": (str, False),
     }
 
 

@@ -66,7 +66,7 @@ release-test-39:
 	rm -rf ${p39dir} && \
 	python3.9 -m venv ${p39dir} && \
 	. ${p39dir}/bin/activate && \
-	pip3.9 install dist/troposphere-$${ver}-py3-none-any.whl && \
+	pip3.9 install dist/troppan-$${ver}-py3-none-any.whl && \
 	python -c 'import troposphere; print(troposphere.__version__)' && \
 	deactivate && \
 	rm -rf ${p39dir}

@@ -19,14 +19,14 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
-project = "troposphere"
+project = "troppan"
 copyright = "2012-2022, cloudtools"
 author = "cloudtools"
 
 # The short X.Y version
 version = ""
 # The full version, including alpha/beta/rc tags
-release = "4.9.6"
+release = "4.17.0"
 
 
 # -- General configuration ---------------------------------------------------
