@@ -261,12 +261,14 @@ class ClientVpnEndpoint(AWSObject):
         "Description": (str, False),
         "DisconnectOnSessionTimeout": (boolean, False),
         "DnsServers": ([str], False),
+        "EndpointIpAddressType": (str, False),
         "SecurityGroupIds": ([str], False),
         "SelfServicePortal": (validate_clientvpnendpoint_selfserviceportal, False),
         "ServerCertificateArn": (str, True),
         "SessionTimeoutHours": (integer, False),
         "SplitTunnel": (boolean, False),
         "TagSpecifications": ([TagSpecifications], False),
+        "TrafficIpAddressType": (str, False),
         "TransportProtocol": (str, False),
         "VpcId": (str, False),
         "VpnPort": (validate_clientvpnendpoint_vpnport, False),
@@ -524,6 +526,7 @@ class InstanceRequirementsRequest(AWSProperty):
         "NetworkBandwidthGbps": (NetworkBandwidthGbpsRequest, False),
         "NetworkInterfaceCount": (NetworkInterfaceCountRequest, False),
         "OnDemandMaxPricePercentageOverLowestPrice": (integer, False),
+        "RequireEncryptionInTransit": (boolean, False),
         "RequireHibernateSupport": (boolean, False),
         "SpotMaxPricePercentageOverLowestPrice": (integer, False),
         "TotalLocalStorageGB": (TotalLocalStorageGBRequest, False),
@@ -556,6 +559,7 @@ class FleetLaunchTemplateOverridesRequest(AWSProperty):
 
     props: PropsDictType = {
         "AvailabilityZone": (str, False),
+        "AvailabilityZoneId": (str, False),
         "BlockDeviceMappings": ([BlockDeviceMapping], False),
         "InstanceRequirements": (InstanceRequirementsRequest, False),
         "InstanceType": (str, False),
@@ -2069,6 +2073,7 @@ class NetworkInterface(AWSObject):
         "Ipv6Prefixes": ([Ipv6PrefixSpecification], False),
         "PrivateIpAddress": (str, False),
         "PrivateIpAddresses": ([PrivateIpAddressSpecification], False),
+        "PublicIpDnsHostnameTypeSpecification": (str, False),
         "SecondaryPrivateIpAddressCount": (integer, False),
         "SourceDestCheck": (boolean, False),
         "SubnetId": (str, True),
@@ -2437,6 +2442,7 @@ class SpotPlacement(AWSProperty):
 
     props: PropsDictType = {
         "AvailabilityZone": (str, False),
+        "AvailabilityZoneId": (str, False),
         "GroupName": (str, False),
         "Tenancy": (str, False),
     }
@@ -2488,6 +2494,7 @@ class LaunchTemplateOverrides(AWSProperty):
 
     props: PropsDictType = {
         "AvailabilityZone": (str, False),
+        "AvailabilityZoneId": (str, False),
         "InstanceRequirements": (InstanceRequirementsRequest, False),
         "InstanceType": (str, False),
         "Priority": (double, False),
@@ -2624,6 +2631,7 @@ class SpotFleet(AWSObject):
 
     props: PropsDictType = {
         "SpotFleetRequestConfigData": (SpotFleetRequestConfigData, True),
+        "Tags": (Tags, False),
     }
 
 
@@ -3956,6 +3964,19 @@ class PeeringAttachmentStatus(AWSProperty):
     props: PropsDictType = {
         "Code": (str, False),
         "Message": (str, False),
+    }
+
+
+class PublicIpDnsNameOptions(AWSProperty):
+    """
+    `PublicIpDnsNameOptions <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-networkinterface-publicipdnsnameoptions.html>`__
+    """
+
+    props: PropsDictType = {
+        "DnsHostnameType": (str, False),
+        "PublicDualStackDnsName": (str, False),
+        "PublicIpv4DnsName": (str, False),
+        "PublicIpv6DnsName": (str, False),
     }
 
 
