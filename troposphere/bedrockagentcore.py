@@ -132,6 +132,48 @@ class AuthorizerConfiguration(AWSProperty):
     }
 
 
+class LambdaInterceptorConfiguration(AWSProperty):
+    """
+    `LambdaInterceptorConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-gateway-lambdainterceptorconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "Arn": (str, True),
+    }
+
+
+class InterceptorConfiguration(AWSProperty):
+    """
+    `InterceptorConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-gateway-interceptorconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "Lambda": (LambdaInterceptorConfiguration, True),
+    }
+
+
+class InterceptorInputConfiguration(AWSProperty):
+    """
+    `InterceptorInputConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-gateway-interceptorinputconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "PassRequestHeaders": (boolean, True),
+    }
+
+
+class GatewayInterceptorConfiguration(AWSProperty):
+    """
+    `GatewayInterceptorConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-gateway-gatewayinterceptorconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "InputConfiguration": (InterceptorInputConfiguration, False),
+        "InterceptionPoints": ([str], True),
+        "Interceptor": (InterceptorConfiguration, True),
+    }
+
+
 class MCPGatewayConfiguration(AWSProperty):
     """
     `MCPGatewayConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-gateway-mcpgatewayconfiguration.html>`__
@@ -166,6 +208,7 @@ class Gateway(AWSObject):
         "AuthorizerType": (str, True),
         "Description": (str, False),
         "ExceptionLevel": (str, False),
+        "InterceptorConfigurations": ([GatewayInterceptorConfiguration], False),
         "KmsKeyArn": (str, False),
         "Name": (str, True),
         "ProtocolConfiguration": (GatewayProtocolConfiguration, False),
@@ -195,6 +238,8 @@ class OAuthCredentialProvider(AWSProperty):
 
     props: PropsDictType = {
         "CustomParameters": (dict, False),
+        "DefaultReturnUrl": (str, False),
+        "GrantType": (str, False),
         "ProviderArn": (str, True),
         "Scopes": ([str], True),
     }
@@ -219,6 +264,18 @@ class CredentialProviderConfiguration(AWSProperty):
     props: PropsDictType = {
         "CredentialProvider": (CredentialProvider, False),
         "CredentialProviderType": (str, True),
+    }
+
+
+class MetadataConfiguration(AWSProperty):
+    """
+    `MetadataConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-gatewaytarget-metadataconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "AllowedQueryParameters": ([str], False),
+        "AllowedRequestHeaders": ([str], False),
+        "AllowedResponseHeaders": ([str], False),
     }
 
 
@@ -337,8 +394,55 @@ class GatewayTarget(AWSObject):
         "CredentialProviderConfigurations": ([CredentialProviderConfiguration], True),
         "Description": (str, False),
         "GatewayIdentifier": (str, False),
+        "MetadataConfiguration": (MetadataConfiguration, False),
         "Name": (str, True),
         "TargetConfiguration": (TargetConfiguration, True),
+    }
+
+
+class EpisodicOverrideConsolidationConfigurationInput(AWSProperty):
+    """
+    `EpisodicOverrideConsolidationConfigurationInput <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-memory-episodicoverrideconsolidationconfigurationinput.html>`__
+    """
+
+    props: PropsDictType = {
+        "AppendToPrompt": (str, True),
+        "ModelId": (str, True),
+    }
+
+
+class EpisodicOverrideExtractionConfigurationInput(AWSProperty):
+    """
+    `EpisodicOverrideExtractionConfigurationInput <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-memory-episodicoverrideextractionconfigurationinput.html>`__
+    """
+
+    props: PropsDictType = {
+        "AppendToPrompt": (str, True),
+        "ModelId": (str, True),
+    }
+
+
+class EpisodicOverrideReflectionConfigurationInput(AWSProperty):
+    """
+    `EpisodicOverrideReflectionConfigurationInput <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-memory-episodicoverridereflectionconfigurationinput.html>`__
+    """
+
+    props: PropsDictType = {
+        "AppendToPrompt": (str, True),
+        "ModelId": (str, True),
+        "Namespaces": ([str], False),
+    }
+
+
+class EpisodicOverride(AWSProperty):
+    """
+    `EpisodicOverride <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-memory-episodicoverride.html>`__
+    """
+
+    props: PropsDictType = {
+        "Consolidation": (EpisodicOverrideConsolidationConfigurationInput, False),
+        "Extraction": (EpisodicOverrideExtractionConfigurationInput, False),
+        "Reflection": (EpisodicOverrideReflectionConfigurationInput, False),
     }
 
 
@@ -500,6 +604,7 @@ class CustomConfigurationInput(AWSProperty):
     """
 
     props: PropsDictType = {
+        "EpisodicOverride": (EpisodicOverride, False),
         "SelfManagedConfiguration": (SelfManagedConfiguration, False),
         "SemanticOverride": (SemanticOverride, False),
         "SummaryOverride": (SummaryOverride, False),
@@ -518,6 +623,34 @@ class CustomMemoryStrategy(AWSProperty):
         "Description": (str, False),
         "Name": (str, True),
         "Namespaces": ([str], False),
+        "Status": (str, False),
+        "StrategyId": (str, False),
+        "Type": (str, False),
+        "UpdatedAt": (str, False),
+    }
+
+
+class EpisodicReflectionConfigurationInput(AWSProperty):
+    """
+    `EpisodicReflectionConfigurationInput <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-memory-episodicreflectionconfigurationinput.html>`__
+    """
+
+    props: PropsDictType = {
+        "Namespaces": ([str], True),
+    }
+
+
+class EpisodicMemoryStrategy(AWSProperty):
+    """
+    `EpisodicMemoryStrategy <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-memory-episodicmemorystrategy.html>`__
+    """
+
+    props: PropsDictType = {
+        "CreatedAt": (str, False),
+        "Description": (str, False),
+        "Name": (str, True),
+        "Namespaces": ([str], False),
+        "ReflectionConfiguration": (EpisodicReflectionConfigurationInput, False),
         "Status": (str, False),
         "StrategyId": (str, False),
         "Type": (str, False),
@@ -583,6 +716,7 @@ class MemoryStrategy(AWSProperty):
 
     props: PropsDictType = {
         "CustomMemoryStrategy": (CustomMemoryStrategy, False),
+        "EpisodicMemoryStrategy": (EpisodicMemoryStrategy, False),
         "SemanticMemoryStrategy": (SemanticMemoryStrategy, False),
         "SummaryMemoryStrategy": (SummaryMemoryStrategy, False),
         "UserPreferenceMemoryStrategy": (UserPreferenceMemoryStrategy, False),
@@ -731,6 +865,40 @@ class WorkloadIdentity(AWSObject):
         "AllowedResourceOauth2ReturnUrls": ([str], False),
         "Name": (str, True),
         "Tags": (Tags, False),
+    }
+
+
+class ClaimMatchValueType(AWSProperty):
+    """
+    `ClaimMatchValueType <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-gateway-claimmatchvaluetype.html>`__
+    """
+
+    props: PropsDictType = {
+        "MatchValueString": (str, False),
+        "MatchValueStringList": ([str], False),
+    }
+
+
+class AuthorizingClaimMatchValueType(AWSProperty):
+    """
+    `AuthorizingClaimMatchValueType <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-gateway-authorizingclaimmatchvaluetype.html>`__
+    """
+
+    props: PropsDictType = {
+        "ClaimMatchOperator": (str, True),
+        "ClaimMatchValue": (ClaimMatchValueType, True),
+    }
+
+
+class CustomClaimValidationType(AWSProperty):
+    """
+    `CustomClaimValidationType <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrockagentcore-gateway-customclaimvalidationtype.html>`__
+    """
+
+    props: PropsDictType = {
+        "AuthorizingClaimMatchValue": (AuthorizingClaimMatchValueType, True),
+        "InboundTokenClaimName": (str, True),
+        "InboundTokenClaimValueType": (str, True),
     }
 
 
