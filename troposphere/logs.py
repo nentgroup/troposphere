@@ -173,6 +173,7 @@ class LogGroup(AWSObject):
 
     props: PropsDictType = {
         "DataProtectionPolicy": (dict, False),
+        "DeletionProtectionEnabled": (boolean, False),
         "FieldIndexPolicies": (Tags, False),
         "KmsKeyId": (str, False),
         "LogGroupClass": (str, False),
@@ -493,6 +494,7 @@ class ParseToOCSF(AWSProperty):
 
     props: PropsDictType = {
         "EventSource": (str, True),
+        "MappingVersion": (str, False),
         "OcsfVersion": (str, True),
         "Source": (str, False),
     }
